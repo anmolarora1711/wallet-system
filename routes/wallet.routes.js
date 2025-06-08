@@ -13,7 +13,7 @@ router.post(
   walletController.setupWallet
 );
 router.get("/wallet/:id", walletController.getWalletDetails);
-router.post("/transact/:walletId", transactionController.transaction);
+router.post("/transact/:walletId", transactionController.processTransaction);
 router.get("/transactions", transactionController.getTransactions);
 
 module.exports = router;

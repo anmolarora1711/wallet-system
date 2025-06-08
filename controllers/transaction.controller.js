@@ -1,17 +1,17 @@
-const { sequelize } = require("../database/sequelize");
+const sequelize = require("../database/sequelize");
 const Wallet = require("../models/wallet.model");
 const Transaction = require("../models/transaction.model");
 const { getTransactionType } = require("../utils/helpers");
 
-const transaction = async (req, res, next) => {
+const processTransaction = async (req, res, next) => {
   const { walletId } = req.params;
   const { amount, description } = req.body;
 
   try {
-    const result = await sequelize.transaction(async (t) => {
+    const result = await sequelize.transaction(async (dbTransaction) => {
       const wallet = await Wallet.findByPk(walletId, {
         lock: true,
-        transaction: t,
+        transaction: dbTransaction,
       });
       if (!wallet) {
         const error = new Error("Wallet not found");
@@ -33,10 +33,10 @@ const transaction = async (req, res, next) => {
         {
           balance: newBalance,
         },
-        { transaction: t }
+        { transaction: dbTransaction }
       );
 
-      const transaction = await Transaction.create(
+      const transactionRecord = await Transaction.create(
         {
           walletId: wallet.id,
           amount: transactionAmount,
@@ -45,10 +45,10 @@ const transaction = async (req, res, next) => {
           type: getTransactionType(transactionAmount),
           status: "completed",
         },
-        { transaction: t }
+        { transaction: dbTransaction }
       );
 
-      return { transaction, newBalance };
+      return { transaction: transactionRecord, newBalance };
     });
 
     res.status(200).json({
@@ -100,6 +100,6 @@ const getTransactions = async (req, res, next) => {
 };
 
 module.exports = {
-  transaction,
+  processTransaction,
   getTransactions,
 };

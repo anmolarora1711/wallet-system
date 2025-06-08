@@ -1,9 +1,10 @@
+const { ValidationError, DatabaseError } = require("sequelize");
 const Wallet = require("../models/wallet.model");
 const Transaction = require("../models/transaction.model");
 const { getTransactionType } = require("../utils/helpers");
 
 const setupWallet = async (req, res, next) => {
-  const transaction = await Wallet.sequelize.transaction();
+  const acidTransaction = await Wallet.sequelize.transaction();
   try {
     const { name, balance } = req.body;
 
@@ -12,7 +13,7 @@ const setupWallet = async (req, res, next) => {
         name,
         balance: parseFloat(balance),
       },
-      { transaction }
+      { transaction: acidTransaction }
     );
     console.log(`Created Wallet-----> ${wallet}`);
 
@@ -24,11 +25,11 @@ const setupWallet = async (req, res, next) => {
         description: "Initial Wallet Setup",
         type: getTransactionType(parseFloat(balance)),
       },
-      { transaction }
+      { transaction: acidTransaction }
     );
     console.log(`Created Transaction-----> ${transaction}`);
 
-    await transaction.commit();
+    await acidTransaction.commit();
 
     res.status(200).json({
       id: wallet.id,
