@@ -8,11 +8,12 @@ const setupWalletValidator = [
     .withMessage("Name is required"),
 
   body("balance")
+    .optional()
     .isDecimal({ decimal_digits: "0,4" })
     .withMessage("Balance must be a decimal number with up to 4 decimals")
     .custom((value) => {
-      if (parseFloat(value) <= 0) {
-        throw new Error("Balance must be a positive number");
+      if (parseFloat(value) < 0) {
+        throw new Error("Balance must be a non-negative number");
       }
       return true;
     }),
@@ -26,9 +27,9 @@ const processTransactionValidator = [
     .withMessage("Amount must be a decimal number with up to 4 precision"),
 
   body("description")
+    .optional()
     .isString()
-    .notEmpty()
-    .withMessage("Description is required"),
+    .withMessage("Description must be a string"),
 ];
 
 const getTransactionsValidator = [

@@ -10,7 +10,7 @@ const Wallet = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
     },
     name: { type: DataTypes.STRING, allowNull: false },
-    balance: { type: DataTypes.DECIMAL(12, 4), allowNull: false },
+    balance: { type: DataTypes.DECIMAL(15, 4), allowNull: false },
   },
   {
     timestamps: true,
