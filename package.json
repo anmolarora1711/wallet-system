@@ -7,9 +7,9 @@
     "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Anmol Arora",
   "license": "ISC",
-  "description": "",
+  "description": "A simple wallet system API.",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
