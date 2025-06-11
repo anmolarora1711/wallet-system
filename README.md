@@ -82,7 +82,7 @@ DB_NAME=wallet_db
 ## Folder Structure
 
 wallet-system <br>
-├── config <be>
+├── config <br>
 | --- ├── constants.js <br>
 ├── controllers <br>
 | --- ├── transaction.controller.js <br>
@@ -175,3 +175,10 @@ Response Body:
   "date": "..."
 }
 ```
+
+---
+
+<samp>***Enjoy Learning!!!***</samp>
+
+---
+
