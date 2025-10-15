@@ -15,7 +15,6 @@ const setupWallet = async (req, res, next) => {
       },
       { transaction: acidTransaction }
     );
-    console.log(`Created Wallet-----> ${wallet}`);
 
     const transaction = await Transaction.create(
       {
@@ -27,7 +26,6 @@ const setupWallet = async (req, res, next) => {
       },
       { transaction: acidTransaction }
     );
-    console.log(`Created Transaction-----> ${transaction}`);
 
     await acidTransaction.commit();
 
@@ -61,7 +59,7 @@ const setupWallet = async (req, res, next) => {
 const getWalletDetails = async (req, res, next) => {
   try {
     const wallet = await Wallet.findByPk(req.params.id);
-    console.log(`Fetched Wallet-----> ${wallet}`);
+
     if (!wallet) {
       const error = new Error("Wallet not found");
       error.statusCode = 404;
